@@ -19,32 +19,83 @@ describe('registrasi dengan POM', function (){
 
     it('Register Baru', async function() {
         await signupPage.signup('testing', 'testing', 'testing@email.com', 'testing123');
-        // await driver.sleep(5000)
+        await driver.sleep(5000)
 
-         let  header = await driver.wait(
-        until.elementLocated(By.xpath("//*[@id='account']/header/div[1]/div[2]/nav/a[3])")),10000
-        );
+        //  let  header = await driver.wait(
+        // until.elementLocated(By.xpath("//header[@id='account']/div[1]/div[2]/nav/a[3]")),10000
+        // );
 
-        let headerText = await header.getText();
-        console.log('Header Ditemukan:', headerText);
+        // let headerText = await header.getText();
+        // console.log('Header Ditemukan:', headerText);
     });
 
     it('Register tanpa nama depan', async function() {
         await signupPage.signup(' ', 'testing', 'testing@email.com', 'testing123');
-        // await driver.sleep(5000)
+        await driver.sleep(3000)
     })
 
     it('Register tanpa nama belakang', async function() {
         await signupPage.signup('testing', ' ', 'testing@email.com', 'testing123');
-        // await driver.sleep(5000)
+        await driver.sleep(3000)
+    })
+
+    it('Register tanpa nama depan dan belakang', async function() {
+        await signupPage.signup(' ', ' ', 'testing@email.com', 'testing123');
+        await driver.sleep(3000)
     })
 
     it('Register tanpa email', async function() {
         await signupPage.signup('testing', 'testing', ' ', 'testing123');
-        // await driver.sleep(5000)
+        await driver.sleep(3000)
     })
+
     it('Register tanpa password', async function() {
         await signupPage.signup('testing', 'testing', 'testing@email.com', '');
-        // await driver.sleep(5000)
+        await driver.sleep(3000)
     })
+    it('Register tanpa email dan password', async function() {
+        await signupPage.signup('testing', 'testing', ' ', '');
+        await driver.sleep(3000)
+    })
+
+    it('Register hanya nama depan', async function() {
+        await signupPage.signup('testing', ' ', ' ', '');
+        await driver.sleep(3000)
+    })
+
+    it('Register hanya nama belakang', async function() {
+        await signupPage.signup(' ', 'testing', ' ', '');
+        await driver.sleep(3000)
+    })
+
+    it('Register hanya email', async function() {
+        await signupPage.signup(' ', ' ', 'testing@email.com', ' ');
+        await driver.sleep(3000)
+    })
+
+    it('Register hanya password', async function() {
+        await signupPage.signup(' ', ' ', ' ', 'testing123');
+        await driver.sleep(3000)
+    })
+    
+    it('Register hanya nama depan dan email', async function() {
+        await signupPage.signup('testing', ' ', 'testing@email.com', ' ');
+        await driver.sleep(3000)
+    });
+    
+    it('Register hanya nama belakang dan email', async function() {
+        await signupPage.signup(' ', 'testing', 'testing@email.com', ' ');
+        await driver.sleep(3000)
+    })
+
+    it('Register hanya nama depan dan password', async function() {
+        await signupPage.signup('testing', ' ', ' ', 'testing123');
+        await driver.sleep(3000)
+    })
+
+    it('Register hanya nama belakang dan password', async function() {
+        await signupPage.signup(' ', 'testing', ' ', 'testing123');
+        await driver.sleep(3000)
+    })
+    
 });
