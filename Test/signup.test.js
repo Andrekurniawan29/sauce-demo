@@ -19,7 +19,7 @@ describe('registrasi dengan POM', function (){
 
     it('Register Baru', async function() {
         await signupPage.signup('testing', 'testing', 'testing@email.com', 'testing123');
-        await driver.sleep(3000)
+        // await driver.sleep(5000)
 
          let  header = await driver.wait(
         until.elementLocated(By.xpath("//*[@id='account']/header/div[1]/div[2]/nav/a[3])")),10000
@@ -31,20 +31,20 @@ describe('registrasi dengan POM', function (){
 
     it('Register tanpa nama depan', async function() {
         await signupPage.signup(' ', 'testing', 'testing@email.com', 'testing123');
-        await driver.sleep(3000)
+        // await driver.sleep(5000)
     })
 
     it('Register tanpa nama belakang', async function() {
         await signupPage.signup('testing', ' ', 'testing@email.com', 'testing123');
-        await driver.sleep(3000)
+        // await driver.sleep(5000)
     })
 
     it('Register tanpa email', async function() {
         await signupPage.signup('testing', 'testing', ' ', 'testing123');
-        await driver.sleep(3000)
+        // await driver.sleep(5000)
     })
     it('Register tanpa password', async function() {
         await signupPage.signup('testing', 'testing', 'testing@email.com', '');
-        await driver.sleep(3000)
+        // await driver.sleep(5000)
     })
 });
