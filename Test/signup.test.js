@@ -1,4 +1,4 @@
-const { Builder, By, until } = require ('selenium-webdriver');
+const { Builder, until } = require ('selenium-webdriver');
 const assert = require('assert');
 const SignupPage = require ('../Pages/SignupPage');
 
