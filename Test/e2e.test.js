@@ -1,0 +1,62 @@
+const {Builder, By, until} = require('selenium-webdriver');
+const assert = require('assert');
+const LoginPage = require('../Pages/LoginPage');
+const HomePage = require('../Pages/homePage');
+const ProductPage = require('../Pages/ProductPage');
+const credentials = require('../Config/credentials');
+
+describe('End to end Test dengan POM', function () {
+    this.timeout(60000);
+    let driver;
+    let homePage;
+    let loginPage;
+    let productPage;
+
+    beforeEach(async function () {
+        driver = await new Builder().forBrowser('chrome').build();
+        await driver.get('https://sauce-demo.myshopify.com');
+        homePage = new HomePage(driver);
+        productPage = new ProductPage(driver);
+        loginPage = new LoginPage(driver);
+    })
+
+    afterEach(async function () {
+        if (driver) await driver.quit();
+    });
+
+    it('Masukan Grey Jacket ke keranjang', async function () {
+        await homePage.clickGreyJacket();
+        await driver.sleep(3000);
+        await productPage.clickAddToCartButton();
+        await driver.sleep(3000);
+    })
+
+    it('Masukan Noir Jacket ke keranjang', async function () {
+        await homePage.clickNoirJacket();
+        await driver.sleep(3000);
+        await productPage.clickAddToCartButton();
+        await driver.sleep(3000);
+    })
+
+    it('Masukan Striped Top ke Keranjang', async function () {
+        await homePage.clickStripedTop();
+        await driver.sleep(3000);
+        await productPage.clickAddToCartButton();
+        await driver.sleep(3000);
+    })
+
+    it('Masukan 3 item ke keranjang', async function () {
+        await homePage.clickGreyJacket();
+        await driver.sleep(3000);
+        await productPage.clickAddToCartButton();
+        await driver.sleep(3000);
+        await homePage.clickNoirJacket();
+        await driver.sleep(3000);
+        await productPage.clickAddToCartButton();
+        await driver.sleep(3000);
+        await homePage.clickStripedTop();
+        await driver.sleep(3000);
+        await productPage.clickAddToCartButton();
+        await driver.sleep(3000);
+    })
+});
