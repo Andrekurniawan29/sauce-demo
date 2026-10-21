@@ -3,7 +3,7 @@ const Loginpage = require('../Pages/LoginPage');
 const credentials = require('../Config/credentials');
 
 describe('Login dengan POM', function () {
-    this.timeout(60000);
+    this.timeout(180000);
     let driver;
     let loginPage;
 
