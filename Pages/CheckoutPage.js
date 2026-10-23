@@ -21,9 +21,9 @@ class CheckoutPage {
         this.saveInformationCheckbox = By.id("save_shipping_information");
 
         //payment card
-        this.cardNumberField = By.xpath("//div[@class = 'current-field' and contains (., 'Card number')])");
-        this.expDateField = By.xpath("//div[@class='current-field' and contains(., 'Expiration date (MM / YY)')]");
-        this.securityCodeField = By.xpath("//div[@class='current-field' and contains (., 'Security code')])");
+        this.cardNumberField = By.xpath("//div[@class='current-field']//input[@id='number']");
+        this.expDateField = By.xpath("//div[@class='current-field']//input[@id='expiry'])]");
+        this.securityCodeField = By.xpath("//div[@class='current-field']//input[@id='verification_value']");
         this.nameCardField = By.xpath("//div[@class='current-field' and contains (., 'Name on card')])");
         this.saveCardCheckbox = By.id("billingAddressCheckbox");
 

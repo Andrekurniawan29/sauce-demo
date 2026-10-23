@@ -68,45 +68,45 @@ describe('End to end Test dengan POM', function () {
 
     it('Belanja Noir Jacket dengan ukuran S warna merah', async function () {
         await homePage.clickNoirJacket();
-        await driver.sleep(1000);
+        await driver.sleep(3000);
         await productPage.clickSelectSize();
-        await driver.sleep(1000);
+        await driver.sleep(3000);
         await productPage.selectSizeS();
-        await driver.sleep(1000);
+        await driver.sleep(3000);
         await productPage.clickSelectColor();
-        await driver.sleep(1000);
+        await driver.sleep(3000);
         await productPage.selectRedColor();
-        await driver.sleep(1000);
+        await driver.sleep(3000);
         await productPage.clickAddToCartButton();
-        await driver.sleep(1000);
+        await driver.sleep(3000);
     })
 
     it('Belanja Noir Jacket dengan ukuran M warna biru', async function () {
         await homePage.clickNoirJacket();
-        await driver.sleep(1000);
+        await driver.sleep(3000);
         await productPage.clickSelectSize();
-        await driver.sleep(1000);
+        await driver.sleep(3000);
         await productPage.selectSizeM();
-        await driver.sleep(1000);
+        await driver.sleep(3000);
         await productPage.clickSelectColor();
-        await driver.sleep(1000);
+        await driver.sleep(3000);
         await productPage.selectBlueColor();
-        await driver.sleep(1000);
+        await driver.sleep(3000);
         await productPage.clickAddToCartButton();
-        await driver.sleep(1000);
+        await driver.sleep(3000);
     })
 
     it('Belanja Noir Jacket dengan ukuran L warna merah', async function () {
         await homePage.clickNoirJacket();
-        await driver.sleep(1000);
+        await driver.sleep(3000);
         await productPage.clickSelectSize();
-        await driver.sleep(1000);
+        await driver.sleep(3000);
         await productPage.selectSizeL();
-        await driver.sleep(1000);
+        await driver.sleep(3000);
         await productPage.selectRedColor();
-        await driver.sleep(1000);
+        await driver.sleep(3000);
         await productPage.clickAddToCartButton();
-        await driver.sleep(1000);
+        await driver.sleep(3000);
     })
 
     it('checkout dengan 3 barang', async function () {
