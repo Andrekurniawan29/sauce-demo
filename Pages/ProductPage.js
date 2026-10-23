@@ -12,11 +12,19 @@ class ProductPage {
         this.sizeL = By.xpath("//option[@value='L']");
         this.redColor = By.xpath("//option[@value='Red']");
         this.blueColor = By.xpath("//option[@value='Blue']");
+        this.cartButton = By.xpath("//a[@href='/cart' and normalize-space()='Check Out']");
+        this.cartCount = By.id("cart-target-desktop");
     }
 
     async clickAddToCartButton() {
+        let cartCountElement = await this.driver.wait(until.elementLocated(this.cartCount), 10000);
+        let currentCartCount = Number((await cartCountElement.getText()).replace(/\D/g, ""));
         let element = await this.driver.wait(until.elementLocated(this.addToCartButton), 10000);
         await element.click();
+        await this.driver.wait(async () => {
+            let countText = await this.driver.findElement(this.cartCount).getText();
+            return Number(countText.replace(/\D/g, "")) > currentCartCount;
+        }, 10000, "Cart count did not increase after adding the product");
     }
 
     async clickSelectSize() {
@@ -64,5 +72,9 @@ class ProductPage {
         await colorElement.click();
     }
 
+    async clickCheckout() {
+        let element = await this.driver.wait(until.elementLocated(this.cartButton), 10000);
+        await element.click();
+    }
 }
 module.exports = ProductPage;
