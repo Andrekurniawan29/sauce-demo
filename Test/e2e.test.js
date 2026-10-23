@@ -129,6 +129,12 @@ describe('End to end Test dengan POM', function () {
         //sudah masuk ke halaman checkout
         await checkoutPage.inputData('test@example.com','jono', 'triono', 'PT Mencari Cinta Sejati', 'di daerah kebayoran', 'kalibata city', 'Jakarta', '15530', '081212345678');
         await driver.sleep(3000);
+        await checkoutPage.clickSaveInformation();
+        await driver.sleep(3000);
+        await checkoutPage.inputCard('4242424242424242', '1030', '123', 'Testing Sauce Demo');
+        await driver.sleep(3000);
+        await checkoutPage.clickSaveCard();
+        await driver.sleep(3000);
         await checkoutPage.clickPayNowButton();
         await driver.sleep(3000);
     })

@@ -21,10 +21,10 @@ class CheckoutPage {
         this.saveInformationCheckbox = By.id("save_shipping_information");
 
         //payment card
-        this.cardNumberField = By.id("number");
-        this.expDateField = By.id("expiry");
-        this.securityCodeField = By.id("verification_value");
-        this.nameCardField = By.id("name");
+        this.cardNumberField = By.xpath("//div[@class = 'current-field' and contains (., 'Card number')])");
+        this.expDateField = By.xpath("//div[@class='current-field' and contains(., 'Expiration date (MM / YY)')]");
+        this.securityCodeField = By.xpath("//div[@class='current-field' and contains (., 'Security code')])");
+        this.nameCardField = By.xpath("//div[@class='current-field' and contains (., 'Name on card')])");
         this.saveCardCheckbox = By.id("billingAddressCheckbox");
 
         this.payNowButton = By.id("checkout-pay-button");
@@ -156,6 +156,13 @@ class CheckoutPage {
             await this.enterCity(city);
             await this.enterPostalCode(postalCode);
             await this.enterPhone(phone);
+        }
+        //isi flow card
+        async inputCard(cardNumber, expDate, securityCode, nameCard,) {
+            await this.enterCardNumber(cardNumber);
+            await this.enterExpDate(expDate);
+            await this.enterSecurityCode(securityCode);
+            await this.enterNameCard(nameCard);
         }
 }
 module.exports = CheckoutPage;
