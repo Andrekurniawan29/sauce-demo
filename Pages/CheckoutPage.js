@@ -6,7 +6,8 @@ class CheckoutPage {
 
         //input data
         this.emailField = By.xpath("//input[@id='email']");
-        this.selectCountry = By.id("SelectSelectPS33_32_2t_19_34_2p_2v_2t-20");
+        this.emailCheckbox = By.xpath("//input[@id='marketing_opt_in']");
+        this.selectCountry = By.id("SelectPS33_32_2t_19_34_2p_2v_2t-20");
         this.selectIndonesia = By.xpath("//option[@value='Indonesia']");
         this.firstNameField = By.id("TextFieldPS33_32_2t_19_34_2p_2v_2t-21");
         this.lastNameField = By.id("TextFieldPS33_32_2t_19_34_2p_2v_2t-22");
@@ -14,17 +15,21 @@ class CheckoutPage {
         this.addressField = By.id("TextFieldPS33_32_2t_19_34_2p_2v_2t-25");
         this.apartmentField = By.id("TextFieldPS33_32_2t_19_34_2p_2v_2t-26");
         this.cityField = By.id("TextFieldPS33_32_2t_19_34_2p_2v_2t-27");
-        this.selectProvince = By.id("SelectSelectPS33_32_2t_19_34_2p_2v_2t-28");
+        this.selectProvince = By.id("SelectPS33_32_2t_19_34_2p_2v_2t-28");
         this.selectJakarta = By.xpath("//option[@value='JK']");
         this.postalCodeField = By.id("TextFieldPS33_32_2t_19_34_2p_2v_2t-29");
         this.phoneField = By.id("TextFieldPS33_32_2t_19_34_2p_2v_2t-31");
         this.saveInformationCheckbox = By.id("save_shipping_information");
 
         //payment card
-        this.cardNumberField = By.xpath("//div[@class='current-field']//input[@id='number']");
-        this.expDateField = By.xpath("//div[@class='current-field']//input[@id='expiry'])]");
-        this.securityCodeField = By.xpath("//div[@class='current-field']//input[@id='verification_value']");
-        this.nameCardField = By.xpath("//div[@class='current-field' and contains (., 'Name on card')])");
+        this.cardNumberFrame = By.css('iframe[title="Card number"]');
+        this.expDateFrame = By.css('iframe[title="Expiration date (MM / YY)"]');
+        this.securityCodeFrame = By.css('iframe[title="Security code"]');
+        this.nameCardFrame = By.css('iframe[title="Name on card"]');
+        this.cardNumberField = By.id("number");
+        this.expDateField = By.id("expiry");
+        this.securityCodeField = By.id("verification_value");
+        this.nameCardField = By.id("name");
         this.saveCardCheckbox = By.id("billingAddressCheckbox");
 
         this.payNowButton = By.id("checkout-pay-button");
@@ -34,6 +39,11 @@ class CheckoutPage {
             let element = await this.driver.wait(until.elementLocated(this.emailField),10000);
             await element.clear();
             await element.sendKeys(email);
+        }
+
+        async clickEmailCheckbox () {
+            let element = await this.driver.wait(until.elementLocated(this.emailCheckbox),10000);
+            await element.click();
         }
 
         async selectCountryOption() {
@@ -105,34 +115,64 @@ class CheckoutPage {
         }
 
         async clickSaveInformation() {
-            let element = await this.driver.wait(until.elementLocated(this.saveCardCheckbox),10000);
+            let element = await this.driver.wait(until.elementLocated(this.saveInformationCheckbox),10000);
             await element.click();
         }
 
         // aksi payment card
-
-        async enterCardNumber(cardNumber) {
-            let element = await this.driver.wait(until.elementLocated(this.cardNumberField),10000);
-            await element.clear();
-            await element.sendKeys(cardNumber);
+        // frame locator untuk mencari lokasi frame payment card supaya sistem menampilkan field tersebut
+        async enterCardField(frameLocator, fieldLocator, value, expectedDigits) {
+            await this.driver.switchTo().defaultContent();
+            let frame = await this.driver.wait(until.elementLocated(frameLocator), 10000);
+            await this.driver.switchTo().frame(frame);
+            try {
+                let element = await this.driver.wait(until.elementLocated(fieldLocator), 10000);
+                await this.driver.wait(until.elementIsVisible(element), 10000);
+                await element.clear();
+                let inputParts = Array.isArray(value) ? value : [value];
+                for (let inputPart of inputParts) {
+                    await element.sendKeys(inputPart);
+                }
+                if (expectedDigits) {
+                    await this.driver.wait(async () => {
+                        let currentValue = await element.getProperty("value");
+                        return currentValue && currentValue.replace(/\D/g, "") === expectedDigits;
+                    }, 10000, "Expiration date was not entered correctly in the card field");
+                }
+                return await element.getProperty("value");
+            } finally {
+                await this.driver.switchTo().defaultContent();
+            }
         }
 
+        async enterCardNumber(cardNumber) {
+            await this.enterCardField(this.cardNumberFrame, this.cardNumberField, cardNumber);
+            await this.driver.sleep (1500);
+        }
+        // penambahan input date secarah terpisah
         async enterExpDate(expDate) {
-            let element = await this.driver.wait(until.elementLocated(this.expDateField),10000);
-            await element.clear();
-            await element.sendKeys(expDate);
+            let match = /^(\d{2})\s*\/?\s*(\d{2})$/.exec(expDate);
+            if (!match || Number(match[1]) < 1 || Number(match[1]) > 12) {
+                throw new Error("Expiration date must be a valid MM/YY value");
+            }
+            let expectedValue = `${match[1]}${match[2]}`;
+            let actualValue = await this.enterCardField(
+                this.expDateFrame,
+                this.expDateField,
+                [match[1], match[2]],
+                expectedValue
+            );
+            if (!actualValue || actualValue.replace(/\D/g, "") !== expectedValue) {
+                throw new Error("Expiration date was not entered correctly in the card field");
+            }
         }
 
         async enterSecurityCode(securityCode) {
-            let element = await this.driver.wait(until.elementLocated(this.securityCodeField),10000);
-            await element.clear();
-            await element.sendKeys(securityCode);
+            await this.enterCardField(this.securityCodeFrame, this.securityCodeField, securityCode);
         }
 
         async enterNameCard(nameCard) {
-            let element = await this.driver.wait(until.elementLocated(this.nameCardField),10000);
-            await element.clear();
-            await element.sendKeys(nameCard);
+            await this.enterCardField(this.nameCardFrame, this.nameCardField, nameCard);
         }
 
         async clickSaveCard() {
