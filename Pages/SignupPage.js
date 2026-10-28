@@ -8,7 +8,7 @@ class SignupPage {
         this.lastNameInput = By.xpath("//input[@id='last_name']");
         this.emailInput = By.xpath("//input[@id='email']");
         this.passwordInput = By.xpath("//input[@id='password']");
-        this.createButton = By.xpath("//input[@value='create']");
+        this.createButton = By.xpath("//input[@value='Create']");
     }
     async enterFirstName (firstName) {
         let element = await this.driver.wait(until.elementLocated(this.firstNameInput),10000);
@@ -35,7 +35,7 @@ class SignupPage {
     }
 
     async clickCreate() {
-        let button = await this.driver.wait(until,elementLocated(this.clickCreate))
+        let button = await this.driver.wait(until.elementLocated(this.createButton), 10000);
         await button.click();
     }
 
