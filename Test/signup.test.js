@@ -1,4 +1,4 @@
-const { Builder, until } = require ('selenium-webdriver');
+const { Builder, By, until } = require('selenium-webdriver');
 const assert = require('assert');
 const SignupPage = require ('../Pages/SignupPage');
 
@@ -15,6 +15,20 @@ describe('registrasi dengan POM', function (){
     
     afterEach(async function () {
         if(driver) await driver.quit();
+    });
+
+    it('Klik tombol create tanpa mengisi form',async function(){
+        await signupPage.clickCreate();
+        //penambahan assert error message
+        const validationMessage = await driver.wait(
+            until.elementLocated(By.css('#create_customer .errors li')),
+            10000
+        );
+        const errorText = await validationMessage.getText();
+
+        assert.strictEqual(await validationMessage.isDisplayed(), true, 'Pesan validasi harus terlihat');
+        assert.strictEqual(errorText.includes("Email can't be blank"), true, 'Pesan error email harus ditampilkan');
+        assert.strictEqual(errorText.includes("Password can't be blank"), true, 'Pesan error password harus ditampilkan');
     });
 
     it('Register Baru', async function() {

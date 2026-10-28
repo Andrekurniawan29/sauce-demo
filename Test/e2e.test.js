@@ -34,8 +34,17 @@ describe('End to end Test dengan POM', function () {
         await homePage.clickGreyJacket();
         await driver.sleep(3000);
         await productPage.clickAddToCartButton();
-        await driver.sleep(3000);
-    })
+        
+        //penambahan assert validasi 
+        const cartCountElement = await driver.wait(
+            until.elementLocated(By.id('cart-target-desktop')),
+            10000
+        );
+        const cartCount = Number((await cartCountElement.getText()).replace(/\D/g, ''));
+        
+        //strictEqual memeriksa bahwa nilai aktual sama persis dengan nilai yang diharapkan
+        assert.strictEqual(cartCount, 1, 'Jumlah item di cart harus 1');
+    });
 
     it('Masukan Noir Jacket ke keranjang', async function () {
         await homePage.clickNoirJacket();
