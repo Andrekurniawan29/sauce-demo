@@ -9,6 +9,13 @@ class SignupPage {
         this.emailInput = By.xpath("//input[@id='email']");
         this.passwordInput = By.xpath("//input[@id='password']");
         this.createButton = By.xpath("//input[@value='Create']");
+        this.signupButton = By.id('customer_register_link');
+        this.createAccountHeader = By.css('h1.accounts-title');
+    }
+    
+    async clickSignup (){
+        let element = await this.driver.wait(until.elementLocated(this.signupButton),10000);
+            await element.click();
     }
     async enterFirstName (firstName) {
         let element = await this.driver.wait(until.elementLocated(this.firstNameInput),10000);
@@ -37,6 +44,19 @@ class SignupPage {
     async clickCreate() {
         let button = await this.driver.wait(until.elementLocated(this.createButton), 10000);
         await button.click();
+    }
+
+    async clickSignupButton() {
+        let button = await this.driver.wait(until.elementLocated(this.signupButton), 10000);
+        await button.click();
+    }
+
+    async getCreateAccountHeaderText() {
+        let header = await this.driver.wait(
+            until.elementLocated(this.createAccountHeader),
+            10000
+        );
+        return await header.getText();
     }
 
     async signup(firstName, lastName, email, password) {
