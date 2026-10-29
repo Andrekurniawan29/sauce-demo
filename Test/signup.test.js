@@ -17,6 +17,14 @@ describe('registrasi dengan POM', function (){
         if(driver) await driver.quit();
     });
 
+    it('Masuk ke halaman Sign Up', async function(){
+        await signupPage.clickSignup();
+        // memvalidasi teks yang ada di halaman sign up harus ada
+        const header = await signupPage.getCreateAccountHeaderText();
+        assert.strictEqual(header, 'Create Account', 'Header Create Account harus ditampilkan');
+        await driver.sleep(3000)
+    });
+
     it('Klik tombol create tanpa mengisi form',async function(){
         await signupPage.clickCreate();
         //penambahan assert error message

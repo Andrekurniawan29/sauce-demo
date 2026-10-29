@@ -50,8 +50,12 @@ describe('End to end Test dengan POM', function () {
         await homePage.clickNoirJacket();
         await driver.sleep(3000);
         await productPage.clickAddToCartButton();
-        await driver.sleep(3000);
-    })
+
+        const cartCountElement = await driver.wait(
+            until.elementLocated (By.id('cart-target-desktop')),10000);
+        const cartCount = Number((await cartCountElement.getText()).replace(/\D/g, ''));
+        assert.strictEqual(cartCount, 1, 'jumlah item di cart harus 1');
+    });
 
     it('Masukan Striped Top ke Keranjang', async function () {
         await homePage.clickStripedTop();
@@ -72,8 +76,11 @@ describe('End to end Test dengan POM', function () {
         await homePage.clickStripedTop();
         await driver.sleep(3000);
         await productPage.clickAddToCartButton();
-        await driver.sleep(3000);
-    })
+        const cartCountElement = await driver.wait(
+            until.elementLocated (By.id('cart-target-desktop')), 10000);
+        const cartCount = Number((await cartCountElement.getText()).replace(/\D/g, ''));
+        assert.strictEqual(cartCount, 3, 'jumlah item di cart harus 3');        
+    });
 
     it('Belanja Noir Jacket dengan ukuran S warna merah', async function () {
         await homePage.clickNoirJacket();
@@ -87,7 +94,11 @@ describe('End to end Test dengan POM', function () {
         await productPage.selectRedColor();
         await driver.sleep(3000);
         await productPage.clickAddToCartButton();
-        await driver.sleep(3000);
+            const cartCountElement = await driver.wait(
+            until.elementLocated (By.id('cart-target-desktop')), 10000);
+            const cartCount = Number((await cartCountElement.getText()).replace(/\D/g, ''));
+            assert.strictEqual(cartCount, 1, 'jumlah item di cart harus 1');        
+            await driver.sleep(3000);
     })
 
     it('Belanja Noir Jacket dengan ukuran M warna biru', async function () {
@@ -102,7 +113,11 @@ describe('End to end Test dengan POM', function () {
         await productPage.selectBlueColor();
         await driver.sleep(3000);
         await productPage.clickAddToCartButton();
-        await driver.sleep(3000);
+            const cartCountElement = await driver.wait(
+            until.elementLocated (By.id('cart-target-desktop')), 10000);
+            const cartCount = Number((await cartCountElement.getText()).replace(/\D/g, ''));
+            assert.strictEqual(cartCount, 1, 'jumlah item di cart harus 1');        
+            await driver.sleep(3000);
     })
 
     it('Belanja Noir Jacket dengan ukuran L warna merah', async function () {
@@ -115,6 +130,10 @@ describe('End to end Test dengan POM', function () {
         await productPage.selectRedColor();
         await driver.sleep(3000);
         await productPage.clickAddToCartButton();
+            const cartCountElement = await driver.wait(
+            until.elementLocated (By.id('cart-target-desktop')), 10000);
+            const cartCount = Number((await cartCountElement.getText()).replace(/\D/g, ''));
+            assert.strictEqual(cartCount, 1, 'jumlah item di cart harus 1');            
         await driver.sleep(3000);
     })
 
@@ -130,6 +149,10 @@ describe('End to end Test dengan POM', function () {
         await homePage.clickStripedTop();
         await driver.sleep(1000);
         await productPage.clickAddToCartButton();
+            const cartCountElement = await driver.wait(
+            until.elementLocated (By.id('cart-target-desktop')), 10000);
+            const cartCount = Number((await cartCountElement.getText()).replace(/\D/g, ''));
+        assert.strictEqual(cartCount, 3, 'jumlah item di cart harus 3');        
         await driver.sleep(3000);
         await productPage.clickCheckout();
         await driver.sleep(3000);
